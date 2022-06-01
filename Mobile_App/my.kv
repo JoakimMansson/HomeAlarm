@@ -1,0 +1,74 @@
+WindowManager:
+
+    HomeScreen:
+    SettingsScreen:
+
+
+<HomeScreen>:
+    name: "Home"
+
+    MDFloatLayout:
+        size: root.width, root.height
+        md_bg_color: (245/255, 245/255, 220/255, 1)
+
+
+        MDLabel:
+            text: ""
+            font_size: "32sp"
+            color: (0, 0, 0, 1)
+            width: "250sp"
+            size_hint_x: None
+            pos_hint: {"center_x": 0.45, "center_y": 0.9}
+
+
+        MDFillRoundFlatButton:  #MoodButton
+            id: dropdown
+            text: "Mood"
+            font_size: "40sp"
+            elevation: 10
+            md_bg_color: (135/255, 193/255, 235/255, 1)
+            pos_hint: {"center_x": 0.5, "center_y": 0.385}
+            on_press: root.showMoods()
+
+        MDBottomAppBar:
+            md_bg_color: (255/255, 181/255, 167/255, 1)
+            MDToolbar:
+                icon_color: (255/255, 181/255, 167/255, 1)
+                icon: "heart-multiple"
+                type: "bottom"
+                mode: "center"
+                on_action_button:
+                    root.manager.transition.direction = 'left'
+                    root.manager.current = "Partner"
+
+
+        Image:
+            id: current_mood
+            source: "Mood/Happy.png"
+            width: "25sp"
+            size_hint_y: 0.3
+            allow_stretch: True
+            pos_hint: {"center_x": 0.5, "center_y": 0.67}
+
+
+
+<SettingsScreen>:
+    name: "Settings"
+    partner_name: partner_name
+    username: username
+    user_id: user_id
+    chat_id: chat_id
+
+    MDFloatLayout:
+        size: root.width, root.height
+        md_bg_color: (245/255, 245/255, 220/255, 1)
+
+
+        Label:
+            text: "Profile"
+            font_size: "64sp"
+            color: (0, 0, 0, 1)
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
+
+
+
