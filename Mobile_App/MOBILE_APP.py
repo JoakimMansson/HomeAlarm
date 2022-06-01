@@ -2,6 +2,7 @@ import subprocess
 import os
 import requests
 import linecache
+import re
 
 from MongoDB import database
 from kivy.clock import Clock
@@ -20,24 +21,32 @@ from kivymd.uix.menu import MDDropdownMenu
 from kivy.config import Config
 
 bot_token = linecache.getline("credentials", 11)
-cluster = linecache.getline("credentials", 2)
-collection = linecache.getline("credentials", 5)
-data = linecache.getline("credentials", 8)
+cluster = re.sub("\n", "",linecache.getline("credentials", 2))
+collection = re.sub("\n", "",linecache.getline("credentials", 5))
+data = re.sub("\n", "",linecache.getline("credentials", 8))
+print(cluster)
+print(collection)
+print(data)
+
 
 db = database(cluster, collection, data)
+db_id = 0
 
 class HomeScreen(Screen):
-    pass
+    alarm_status = ObjectProperty(None)
 
+    def on_enter(self, *args):
+        if alarm_active():
+            self.alarm_status.source = "Images/Active.png"
+        else:
+            self.alarm_status.source = "Images/De-activated.png"
 
 class SettingsScreen(Screen):
     pass
 
 
 class WindowManager(ScreenManager):
-    enter_name_screen = ObjectProperty(None)
-    connect_screen = ObjectProperty(None)
-    home_screen = ObjectProperty(None)
+    pass
 
 
 
@@ -51,9 +60,8 @@ class AlarmApp(MDApp):
 
 
 
-def getMachineID():     #Returns unique ID of machine
-    current_machine_id = str(subprocess.check_output('wmic csproduct get uuid'), 'utf-8').split('\n')[1].strip()
-    return current_machine_id
+def alarm_active():
+    return db.get_element(db_id, "alarm_active")
 
 
 def send_notify(chatID, bot_message):
