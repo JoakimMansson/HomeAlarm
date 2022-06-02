@@ -4,12 +4,15 @@ import requests
 import linecache
 import re
 
+from datetime import  datetime
+
 from MongoDB import database
 from kivy.clock import Clock
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
+from kivy.config import Config
 
 
 from kivymd.app import MDApp
@@ -18,35 +21,124 @@ from kivymd.uix.button import MDIconButton, MDFillRoundFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
 
-from kivy.config import Config
-
 bot_token = linecache.getline("credentials", 11)
-cluster = re.sub("\n", "",linecache.getline("credentials", 2))
-collection = re.sub("\n", "",linecache.getline("credentials", 5))
-data = re.sub("\n", "",linecache.getline("credentials", 8))
-print(cluster)
-print(collection)
-print(data)
+cluster = re.sub("\n", "", linecache.getline("credentials", 2))
+collection = re.sub("\n", "", linecache.getline("credentials", 5))
+data = re.sub("\n", "", linecache.getline("credentials", 8))
 
 
 db = database(cluster, collection, data)
 db_id = 0
 
+
+#   StartScreen used for
+#   loading all components
+#   for one frame
+class StartScreen(Screen):
+
+    def __init__(self, **kwargs):
+        super(StartScreen, self).__init__(**kwargs)
+        Clock.schedule_once(lambda dt: self.start(), 1 / 60)
+
+    def start(self):
+        self.manager.current = "Home"
+
+
 class HomeScreen(Screen):
     alarm_status = ObjectProperty(None)
+    alarm_btn = ObjectProperty(None)
+    camera_btn = ObjectProperty(None)
+    scheme_btn = ObjectProperty(None)
+    last_armed = ObjectProperty(None)
 
-    def on_enter(self, *args):
+
+    def on_pre_enter(self, *args):
+        try:
+            self.last_armed.text = last_armed()
+
+            if alarm_active():
+                self.alarm_status.source = "Images/Active.png"
+                self.alarm_btn.text = "Avaktivera larm"
+                self.camera_btn.disabled = False
+            else:
+                self.alarm_status.source = "Images/De-activated.png"
+                self.alarm_btn.text = "Aktivera larm"
+                self.camera_btn.disabled = True
+
+        except Exception as e:
+            print(e)
+
+    def alarm_action(self) -> None:
+        toast("Laddar")
         if alarm_active():
-            self.alarm_status.source = "Images/Active.png"
+            self.deactivate_alarm()
         else:
+            self.activate_alarm()
+
+    def activate_alarm(self) -> None:
+        current_time = datetime.now().strftime("%H:%M:%S")
+
+        try:
+            db.update_element(db_id, "system_signal", 1)
+            db.update_element(db_id, "action_time", "Aktiverat " + current_time)
+
+            self.alarm_status.source = "Images/Active.png"
+            self.alarm_btn.text = "Avaktivera larm"
+            self.camera_btn.disabled = False
+            self.last_armed.text = "Aktiverat " + current_time
+        except Exception as e:
+            print(e)
+
+        Clock.schedule_once(lambda dt: self.check_alarm(1), 5)
+
+
+    def deactivate_alarm(self) -> None:
+        current_time = datetime.now().strftime("%H:%M:%S")
+
+        try:
+            db.update_element(db_id, "system_signal", 2)
+            db.update_element(db_id, "action_time", "Avaktiverat " + current_time)
+
             self.alarm_status.source = "Images/De-activated.png"
+            self.alarm_btn.text = "Aktivera larm"
+            self.camera_btn.disabled = True
+            self.last_armed.text = "Avaktiverat " + current_time
+        except Exception as e:
+            print(e)
+
+        Clock.schedule_once(lambda dt: self.check_alarm(2), 5)
+
+
+    def check_alarm(self, expectedState: int):
+        if expectedState == 1 and db.get_element(db_id, "alarm_on") == False:
+            toast("Misslyckades")
+            self.alarm_status.source = "Images/De-activated.png"
+            self.alarm_btn.text = "Aktivera larm"
+            self.camera_btn.disabled = True
+        elif expectedState == 2 and db.get_element(db_id, "alarm_on") == True:
+            toast("Misslyckades")
+            self.alarm_status.source = "Images/Active.png"
+            self.alarm_btn.text = "Avaktivera larm"
+            self.camera_btn.disabled = False
+        else:
+            pass
+
 
 class SettingsScreen(Screen):
     pass
 
 
-class WindowManager(ScreenManager):
+class CameraScreen(Screen):
     pass
+
+
+class SchemeScreen(Screen):
+    pass
+
+
+class WindowManager(ScreenManager):
+    Home = HomeScreen()
+    Settings = SettingsScreen()
 
 
 
@@ -61,7 +153,13 @@ class AlarmApp(MDApp):
 
 
 def alarm_active():
-    return db.get_element(db_id, "alarm_active")
+    alarm_status = db.get_element(db_id, "alarm_on")
+    return alarm_status
+
+
+def last_armed():
+    armed_time = db.get_element(db_id, "action_time")
+    return armed_time
 
 
 def send_notify(chatID, bot_message):

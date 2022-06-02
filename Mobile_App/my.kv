@@ -1,33 +1,97 @@
 WindowManager:
 
+    StartScreen:
     HomeScreen:
     SettingsScreen:
+    CameraScreen:
+    SchemeScreen:
+
+<StartScreen>:
+
 
 <HomeScreen>:
     name: "Home"
-    alarm_status:alarm_status
+    alarm_status: alarm_status
+    alarm_btn: alarm_btn
+    scheme_btn: scheme_btn
+    camera_btn: camera_btn
+    last_armed: last_armed
 
     MDFloatLayout:
         size: root.width, root.height
         md_bg_color: (245/255, 245/255, 220/255, 1)
 
+        MDToolbar:
+            title: "Bottom Navbar"
 
-        MDLabel:
-            text: "JSecure"
-            font_size: "32sp"
+        MDBottomNavigation:
+            md_bg_color: (0, 0, 0, 1)
+
+            MDBottomNavigationItem:
+                name: "home"
+                icon: "shield"
+
+            MDBottomNavigationItem:
+                name: "settings"
+                icon: "cog"
+
+        MDFillRoundFlatButton:
+            id: alarm_btn
+            text: ""
+            text_color: (1, 1, 1, 1)
+            md_bg_color: (0, 0, 0, 1)
+            font_size: "18sp"
+            pos_hint: {"center_x": 0.5, "center_y": 0.49}
+            on_press: root.alarm_action()
+
+        MDFillRoundFlatIconButton:
+            id: scheme_btn
+            icon: "arrow-right-bold"
+            text: "Schemalägg larm"
+            text_color: (1, 1, 1, 1)
+            md_bg_color: (0, 0, 0, 1)
+            font_size: "18sp"
+            size_hint_x: "0.8sp"
+            pos_hint: {"center_x": 0.5, "center_y": 0.24}
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = "Scheme"
+
+
+        MDFillRoundFlatIconButton:
+            id: camera_btn
+            icon: "arrow-right-bold"
+            text: "Kamera"
+            text_color: (1, 1, 1, 1)
+            md_bg_color: (0, 0, 0, 1)
+            font_size: "18sp"
+            size_hint_x: "0.8sp"
+            pos_hint: {"center_x": 0.5, "center_y": 0.34}
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = "Camera"
+
+        Label:
+            id: last_armed
+            text: ""
+            font_size: "15sp"
             color: (0, 0, 0, 1)
-            width: "250sp"
-            size_hint_x: None
-            pos_hint: {"center_x": 0.45, "center_y": 0.5}
+            pos_hint: {"center_x": 0.5, "center_y": 0.57}
+
+        Label:
+            text: "JSecure"
+            font_size: "45sp"
+            color: (0, 0, 0, 1)
+            pos_hint: {"center_x": 0.5, "center_y": 0.9}
 
 
         Image:
             id: alarm_status
             source: "Images/Active.png"
-            width: "25sp"
-            size_hint_y: 0.3
+            width: "15sp"
+            size_hint_y: 0.2
             allow_stretch: True
-            pos_hint: {"center_x": 0.5, "center_y": 0.67}
+            pos_hint: {"center_x": 0.5, "center_y": 0.7}
 
 
 
@@ -46,4 +110,36 @@ WindowManager:
             pos_hint: {"center_x": 0.5, "center_y": 0.9}
 
 
+
+<CameraScreen>:
+    name: "Camera"
+
+    MDFloatLayout:
+        size: root.width, root.height
+        md_bg_color: (245/255, 245/255, 220/255, 1)
+
+        MDIconButton:   #GoToHome
+            icon: "arrow-left-thick"
+            icon_size: "64sp"
+            pos_hint: {"center_x": 0.05, "center_y": 0.9}
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "Home"
+
+
+
+<SchemeScreen>:
+    name: "Scheme"
+
+    MDFloatLayout:
+        size: root.width, root.height
+        md_bg_color: (245/255, 245/255, 220/255, 1)
+
+        MDIconButton:   #GoToHome
+            icon: "arrow-left-thick"
+            icon_size: "64sp"
+            pos_hint: {"center_x": 0.05, "center_y": 0.9}
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = "Home"
 
