@@ -4,7 +4,9 @@ import requests
 import linecache
 import re
 
-from datetime import  datetime
+from datetime import datetime
+
+from kivymd.uix.picker import MDTimePicker
 
 from MongoDB import database
 from kivy.clock import Clock
@@ -38,7 +40,7 @@ class StartScreen(Screen):
 
     def __init__(self, **kwargs):
         super(StartScreen, self).__init__(**kwargs)
-        Clock.schedule_once(lambda dt: self.start(), 1 / 60)
+        Clock.schedule_once(lambda dt: self.start(), 1/30)
 
     def start(self):
         self.manager.current = "Home"
@@ -110,16 +112,20 @@ class HomeScreen(Screen):
 
 
     def check_alarm(self, expectedState: int):
+        current_time = datetime.now().strftime("%H:%M:%S")
+        
         if expectedState == 1 and db.get_element(db_id, "alarm_on") == False:
             toast("Misslyckades")
             self.alarm_status.source = "Images/De-activated.png"
             self.alarm_btn.text = "Aktivera larm"
             self.camera_btn.disabled = True
+            self.last_armed.text = "Misslyckades " + current_time
         elif expectedState == 2 and db.get_element(db_id, "alarm_on") == True:
             toast("Misslyckades")
             self.alarm_status.source = "Images/Active.png"
             self.alarm_btn.text = "Avaktivera larm"
             self.camera_btn.disabled = False
+            self.last_armed.text = "Misslyckades " + current_time
         else:
             pass
 
@@ -133,8 +139,37 @@ class CameraScreen(Screen):
 
 
 class SchemeScreen(Screen):
-    pass
+    start_time = ObjectProperty(None)
+    end_time = ObjectProperty(None)
 
+    def on_pre_enter(self, *args):
+        self.start_time.text = db.get_element(db_id, "start_time")
+        self.end_time.text = db.get_element(db_id, "end_time")
+
+    def pick_time_start(self):
+        time_dialog = MDTimePicker()
+        time_dialog.bind(time=self.get_time_start)
+        time_dialog.open()
+
+    def pick_time_end(self):
+        time_dialog = MDTimePicker()
+        time_dialog.bind(time=self.get_time_end)
+        time_dialog.open()
+
+    def get_time_start(self, instance, time):
+        self.start_time.text = str(time)[0:5]
+
+    def get_time_end(self, instance, time):
+        self.end_time.text = str(time)[0:5]
+
+    def save_time_scheme(self):
+        pass
+
+    def delete_time_scheme(self):
+        db.update_element(db_id, "start_time", "--:--")
+        db.update_element(db_id, "end_time", "--:--")
+        self.start_time.text = "--:--"
+        self.end_time.text = "--:--"
 
 class WindowManager(ScreenManager):
     Home = HomeScreen()

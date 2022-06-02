@@ -19,13 +19,14 @@ WindowManager:
 
     MDFloatLayout:
         size: root.width, root.height
-        md_bg_color: (245/255, 245/255, 220/255, 1)
+        md_bg_color: (1, 1, 1, 1)
 
         MDToolbar:
             title: "Bottom Navbar"
 
         MDBottomNavigation:
-            md_bg_color: (0, 0, 0, 1)
+            md_bg_color: (1, 1, 1, 1)
+
 
             MDBottomNavigationItem:
                 name: "home"
@@ -35,6 +36,7 @@ WindowManager:
                 name: "settings"
                 icon: "cog"
 
+
         MDFillRoundFlatButton:
             id: alarm_btn
             text: ""
@@ -43,6 +45,7 @@ WindowManager:
             font_size: "18sp"
             pos_hint: {"center_x": 0.5, "center_y": 0.49}
             on_press: root.alarm_action()
+
 
         MDFillRoundFlatIconButton:
             id: scheme_btn
@@ -116,7 +119,7 @@ WindowManager:
 
     MDFloatLayout:
         size: root.width, root.height
-        md_bg_color: (245/255, 245/255, 220/255, 1)
+        md_bg_color: (1, 1, 1, 1)
 
         MDIconButton:   #GoToHome
             icon: "arrow-left-thick"
@@ -130,10 +133,55 @@ WindowManager:
 
 <SchemeScreen>:
     name: "Scheme"
+    start_time: start_time
+    end_time: end_time
 
     MDFloatLayout:
         size: root.width, root.height
-        md_bg_color: (245/255, 245/255, 220/255, 1)
+        md_bg_color: (1, 1, 1, 1)
+
+        Label:
+            id: start_time
+            text: "--:--"
+            font_size: "45sp"
+            color: (0, 0, 0, 1)
+            pos_hint: {"center_x": 0.5, "center_y": 0.69}
+
+        MDFillRoundFlatIconButton:
+            md_bg_color: (0, 0, 0, 1)
+            text: "Start tid"
+            icon: "alarm"
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            on_press: root.pick_time_start()
+
+        Label:
+            id: end_time
+            text: "--:--"
+            font_size: "45sp"
+            color: (0, 0, 0, 1)
+            pos_hint: {"center_x": 0.5, "center_y": 0.49}
+
+        MDFillRoundFlatIconButton
+            md_bg_color: (0, 0, 0, 1)
+            text: "Slut tid"
+            icon: "alarm"
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
+            on_press: root.pick_time_end()
+
+        MDFillRoundFlatIconButton
+            md_bg_color: (0, 210/255, 0, 1)
+            text: "Spara schemaläggning"
+            icon: "plus-circle-outline"
+            pos_hint: {"center_x": 0.5, "center_y": 0.15}
+            on_press: root.save_time_scheme()
+
+        MDFillRoundFlatIconButton
+            md_bg_color: (1, 0, 0, 1)
+            text: "Ta bort schemaläggning"
+            icon: "minus-circle-outline"
+            pos_hint: {"center_x": 0.5, "center_y": 0.05}
+            on_press: root.delete_time_scheme()
+
 
         MDIconButton:   #GoToHome
             icon: "arrow-left-thick"
