@@ -163,13 +163,16 @@ class SchemeScreen(Screen):
         self.end_time.text = str(time)[0:5]
 
     def save_time_scheme(self):
-        pass
+        db.update_element(db_id, "start_time", self.start_time.text)
+        db.update_element(db_id, "end_time", self.end_time.text)
+        toast("Sparat")
 
     def delete_time_scheme(self):
         db.update_element(db_id, "start_time", "--:--")
         db.update_element(db_id, "end_time", "--:--")
         self.start_time.text = "--:--"
         self.end_time.text = "--:--"
+        toast("Borttaget")
 
 class WindowManager(ScreenManager):
     Home = HomeScreen()
