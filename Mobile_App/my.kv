@@ -31,10 +31,14 @@ WindowManager:
             MDBottomNavigationItem:
                 name: "home"
                 icon: "shield"
+                
 
             MDBottomNavigationItem:
                 name: "settings"
                 icon: "cog"
+
+
+
 
 
         MDFillRoundFlatButton:
@@ -127,12 +131,31 @@ WindowManager:
             color: (0, 0, 0, 1)
             pos_hint: {"center_x": 0.5, "center_y": 0.9}
 
+        MDFillRoundFlatIconButton:
+            text: "bild"
+            icon: "camera"
+            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            md_bg_color: (0, 0, 0, 1)
+
+        MDFillRoundFlatIconButton:
+            text: "Live video"
+            icon: "cctv"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            md_bg_color: (0, 0, 0, 1)
 
         MDFillRoundFlatIconButton:
             text: "10 sekunders video"
             icon: "message-video"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
             md_bg_color: (0, 0, 0, 1)
+
+        MDFillRoundFlatIconButton:
+            text: "20 sekunders video"
+            icon: "message-video"
+            pos_hint: {"center_x": 0.5, "center_y": 0.3}
+            md_bg_color: (0, 0, 0, 1)
+
+
 
         MDIconButton:   #GoToHome
             icon: "arrow-left-thick"
@@ -209,4 +232,3 @@ WindowManager:
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = "Home"
-

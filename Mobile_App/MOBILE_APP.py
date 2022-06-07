@@ -120,14 +120,23 @@ class HomeScreen(Screen):
             self.alarm_btn.text = "Aktivera larm"
             self.camera_btn.disabled = True
             self.last_armed.text = "Misslyckades " + current_time
+            db.update_element(db_id, "action_time", self.last_armed.text)
         elif expectedState == 2 and db.get_element(db_id, "alarm_on") == True:
             toast("Misslyckades")
             self.alarm_status.source = "Images/Active.png"
             self.alarm_btn.text = "Avaktivera larm"
             self.camera_btn.disabled = False
             self.last_armed.text = "Misslyckades " + current_time
+            db.update_element(db_id, "action_time", self.last_armed.text)
         else:
             pass
+
+
+    def go_settings(self):
+        self.manager.current = "Settings"
+
+    def go_home(self):
+        self.manager.current = "Home"
 
 
 class SettingsScreen(Screen):
