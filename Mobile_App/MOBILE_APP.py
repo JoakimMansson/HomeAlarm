@@ -24,9 +24,12 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
 
 bot_token = linecache.getline("credentials", 11)
+chatID = linecache.getline("credentials", 14)
+
 cluster = re.sub("\n", "", linecache.getline("credentials", 2))
 collection = re.sub("\n", "", linecache.getline("credentials", 5))
 data = re.sub("\n", "", linecache.getline("credentials", 8))
+
 
 
 db = database(cluster, collection, data)
@@ -88,6 +91,9 @@ class HomeScreen(Screen):
             self.alarm_btn.text = "Avaktivera larm"
             self.camera_btn.disabled = False
             self.last_armed.text = "Aktiverat " + current_time
+
+            send_notify("Alarmet har aktiverats")
+            toast("Aktiverat")
         except Exception as e:
             print(e)
 
@@ -105,6 +111,9 @@ class HomeScreen(Screen):
             self.alarm_btn.text = "Aktivera larm"
             self.camera_btn.disabled = True
             self.last_armed.text = "Avaktiverat " + current_time
+
+            send_notify("Alarmet har avaktiverats")
+            toast("Avaktiverat")
         except Exception as e:
             print(e)
 
@@ -174,6 +183,7 @@ class SchemeScreen(Screen):
     def save_time_scheme(self):
         db.update_element(db_id, "start_time", self.start_time.text)
         db.update_element(db_id, "end_time", self.end_time.text)
+        send_notify("Schemaläggning sparad från: " + self.start_time.text + " till " + self.end_time.text)
         toast("Sparat")
 
     def delete_time_scheme(self):
@@ -181,7 +191,9 @@ class SchemeScreen(Screen):
         db.update_element(db_id, "end_time", "--:--")
         self.start_time.text = "--:--"
         self.end_time.text = "--:--"
+        send_notify("Schemaläggningen från: " + self.start_time.text + " till " + self.end_time.text + " har tagits bort")
         toast("Borttaget")
+
 
 class WindowManager(ScreenManager):
     Home = HomeScreen()
@@ -198,7 +210,6 @@ class AlarmApp(MDApp):
 
 
 
-
 def alarm_active():
     alarm_status = db.get_element(db_id, "alarm_on")
     return alarm_status
@@ -209,7 +220,7 @@ def last_armed():
     return armed_time
 
 
-def send_notify(chatID, bot_message):
+def send_notify(bot_message):
    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + chatID + '&parse_mode=Markdown&text=' + bot_message
    requests.get(send_text)
 
