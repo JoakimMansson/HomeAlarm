@@ -23,8 +23,8 @@ from kivymd.uix.button import MDIconButton, MDFillRoundFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
 
-bot_token = linecache.getline("credentials", 11)
-chatID = linecache.getline("credentials", 14)
+bot_token = re.sub("\n", "", linecache.getline("credentials", 11))
+chatID = re.sub("\n", "", linecache.getline("credentials", 14))
 
 cluster = re.sub("\n", "", linecache.getline("credentials", 2))
 collection = re.sub("\n", "", linecache.getline("credentials", 5))
@@ -149,11 +149,36 @@ class HomeScreen(Screen):
 
 
 class SettingsScreen(Screen):
-    pass
+
+    def RestartAlarmModule(self):
+        pass
 
 
 class CameraScreen(Screen):
-    pass
+
+    #Sends 1 to database for picture
+    def RequestPicture(self):
+        try:
+            db.update_element(db_id, "request_cam", 1)
+            toast("Skickar bild")
+        except Exception as e:
+            print("Failed to request picture")
+
+    #Sends 2 to database for 10-second video
+    def Request10Video(self):
+        try:
+            db.update_element(db_id, "request_cam", 2)
+            toast("Skickar video")
+        except Exception as e:
+            print("Failed to request 10 video")
+
+    #Sends 3 to database for 20-second video
+    def Request20Video(self):
+        try:
+            db.update_element(db_id, "request_cam", 3)
+            toast("Skickar video")
+        except Exception as e:
+            print("Failed to request 20 video")
 
 
 class SchemeScreen(Screen):
@@ -181,18 +206,17 @@ class SchemeScreen(Screen):
         self.end_time.text = str(time)[0:5]
 
     def save_time_scheme(self):
+        toast("Sparat")
+        send_notify("Schemaläggning från: " + self.start_time.text + " till " + self.end_time.text + " sparad")
         db.update_element(db_id, "start_time", self.start_time.text)
         db.update_element(db_id, "end_time", self.end_time.text)
-        send_notify("Schemaläggning sparad från: " + self.start_time.text + " till " + self.end_time.text)
-        toast("Sparat")
 
     def delete_time_scheme(self):
+        send_notify("Schemaläggningen från: " + self.start_time.text + " till " + self.end_time.text + " har tagits bort")
         db.update_element(db_id, "start_time", "--:--")
         db.update_element(db_id, "end_time", "--:--")
         self.start_time.text = "--:--"
         self.end_time.text = "--:--"
-        send_notify("Schemaläggningen från: " + self.start_time.text + " till " + self.end_time.text + " har tagits bort")
-        toast("Borttaget")
 
 
 class WindowManager(ScreenManager):

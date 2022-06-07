@@ -167,8 +167,9 @@ WindowManager:
         MDFillRoundFlatIconButton:
             text: "bild"
             icon: "camera"
-            pos_hint: {"center_x": 0.5, "center_y": 0.6}
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
             md_bg_color: (0, 0, 0, 1)
+            on_press: root.RequestPicture()
 
 
         MDFillRoundFlatIconButton:
@@ -176,12 +177,14 @@ WindowManager:
             icon: "message-video"
             pos_hint: {"center_x": 0.5, "center_y": 0.4}
             md_bg_color: (0, 0, 0, 1)
+            on_press: root.Request10Video()
 
         MDFillRoundFlatIconButton:
             text: "20 sekunders video"
             icon: "message-video"
             pos_hint: {"center_x": 0.5, "center_y": 0.3}
             md_bg_color: (0, 0, 0, 1)
+            on_press: root.Request20Video()
 
 
         MDIconButton:   #GoToHome
