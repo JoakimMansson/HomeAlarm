@@ -31,10 +31,18 @@ WindowManager:
             MDBottomNavigationItem:
                 name: "home"
                 icon: "shield"
+                on_tab_press:
+                    root.manager.current = "Home"
+                    root.manager.transition.direction = 'right'
 
             MDBottomNavigationItem:
                 name: "settings"
                 icon: "cog"
+                on_tab_press:
+                    root.manager.current = "Settings"
+                    root.manager.transition.direction = 'left'
+
+
 
 
         MDFillRoundFlatButton:
@@ -103,16 +111,45 @@ WindowManager:
 
     MDFloatLayout:
         size: root.width, root.height
-        md_bg_color: (245/255, 245/255, 220/255, 1)
+        md_bg_color: (1, 1, 1, 1)
+
+        MDBottomNavigation:
+            md_bg_color: (1, 1, 1, 1)
+
+
+            MDBottomNavigationItem:
+                name: "home"
+                icon: "shield"
+                on_tab_press:
+                    root.manager.current = "Home"
+                    root.manager.transition.direction = 'right'
+
+            MDBottomNavigationItem:
+                name: "settings"
+                icon: "cog"
+                on_tab_press:
+                    root.manager.current = "Settings"
+                    root.manager.transition.direction = 'left'
+
 
 
         Label:
-            text: "Profile"
-            font_size: "64sp"
+            text: "Inställningar"
+            font_size: "54sp"
             color: (0, 0, 0, 1)
             pos_hint: {"center_x": 0.5, "center_y": 0.9}
 
+        MDFillRoundFlatIconButton:
+            md_bg_color: (0, 0, 0, 1)
+            text: "Starta om larmenhet"
+            icon: "restart"
+            pos_hint: {"center_x": 0.5, "center_y": 0.65}
 
+        MDFillRoundFlatIconButton:
+            md_bg_color: (0, 0, 0, 1)
+            text: "Kontakta teknisk support"
+            icon: "human-greeting-proximity"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
 <CameraScreen>:
     name: "Camera"
@@ -127,12 +164,28 @@ WindowManager:
             color: (0, 0, 0, 1)
             pos_hint: {"center_x": 0.5, "center_y": 0.9}
 
+        MDFillRoundFlatIconButton:
+            text: "bild"
+            icon: "camera"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            md_bg_color: (0, 0, 0, 1)
+            on_press: root.RequestPicture()
+
 
         MDFillRoundFlatIconButton:
             text: "10 sekunders video"
             icon: "message-video"
-            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
             md_bg_color: (0, 0, 0, 1)
+            on_press: root.Request10Video()
+
+        MDFillRoundFlatIconButton:
+            text: "20 sekunders video"
+            icon: "message-video"
+            pos_hint: {"center_x": 0.5, "center_y": 0.3}
+            md_bg_color: (0, 0, 0, 1)
+            on_press: root.Request20Video()
+
 
         MDIconButton:   #GoToHome
             icon: "arrow-left-thick"
@@ -209,4 +262,3 @@ WindowManager:
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = "Home"
-

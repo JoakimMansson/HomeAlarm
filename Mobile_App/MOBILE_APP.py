@@ -23,10 +23,13 @@ from kivymd.uix.button import MDIconButton, MDFillRoundFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
 
-bot_token = linecache.getline("credentials", 11)
+bot_token = re.sub("\n", "", linecache.getline("credentials", 11))
+chatID = re.sub("\n", "", linecache.getline("credentials", 14))
+
 cluster = re.sub("\n", "", linecache.getline("credentials", 2))
 collection = re.sub("\n", "", linecache.getline("credentials", 5))
 data = re.sub("\n", "", linecache.getline("credentials", 8))
+
 
 
 db = database(cluster, collection, data)
@@ -88,6 +91,9 @@ class HomeScreen(Screen):
             self.alarm_btn.text = "Avaktivera larm"
             self.camera_btn.disabled = False
             self.last_armed.text = "Aktiverat " + current_time
+
+            send_notify("Alarmet har aktiverats")
+            toast("Aktiverat")
         except Exception as e:
             print(e)
 
@@ -105,6 +111,9 @@ class HomeScreen(Screen):
             self.alarm_btn.text = "Aktivera larm"
             self.camera_btn.disabled = True
             self.last_armed.text = "Avaktiverat " + current_time
+
+            send_notify("Alarmet har avaktiverats")
+            toast("Avaktiverat")
         except Exception as e:
             print(e)
 
@@ -120,22 +129,56 @@ class HomeScreen(Screen):
             self.alarm_btn.text = "Aktivera larm"
             self.camera_btn.disabled = True
             self.last_armed.text = "Misslyckades " + current_time
+            db.update_element(db_id, "action_time", self.last_armed.text)
         elif expectedState == 2 and db.get_element(db_id, "alarm_on") == True:
             toast("Misslyckades")
             self.alarm_status.source = "Images/Active.png"
             self.alarm_btn.text = "Avaktivera larm"
             self.camera_btn.disabled = False
             self.last_armed.text = "Misslyckades " + current_time
+            db.update_element(db_id, "action_time", self.last_armed.text)
         else:
             pass
 
 
+    def go_settings(self):
+        self.manager.current = "Settings"
+
+    def go_home(self):
+        self.manager.current = "Home"
+
+
 class SettingsScreen(Screen):
-    pass
+
+    def RestartAlarmModule(self):
+        pass
 
 
 class CameraScreen(Screen):
-    pass
+
+    #Sends 1 to database for picture
+    def RequestPicture(self):
+        try:
+            db.update_element(db_id, "request_cam", 1)
+            toast("Skickar bild")
+        except Exception as e:
+            print("Failed to request picture")
+
+    #Sends 2 to database for 10-second video
+    def Request10Video(self):
+        try:
+            db.update_element(db_id, "request_cam", 2)
+            toast("Skickar video")
+        except Exception as e:
+            print("Failed to request 10 video")
+
+    #Sends 3 to database for 20-second video
+    def Request20Video(self):
+        try:
+            db.update_element(db_id, "request_cam", 3)
+            toast("Skickar video")
+        except Exception as e:
+            print("Failed to request 20 video")
 
 
 class SchemeScreen(Screen):
@@ -163,16 +206,18 @@ class SchemeScreen(Screen):
         self.end_time.text = str(time)[0:5]
 
     def save_time_scheme(self):
+        toast("Sparat")
+        send_notify("Schemaläggning från: " + self.start_time.text + " till " + self.end_time.text + " sparad")
         db.update_element(db_id, "start_time", self.start_time.text)
         db.update_element(db_id, "end_time", self.end_time.text)
-        toast("Sparat")
 
     def delete_time_scheme(self):
+        send_notify("Schemaläggningen från: " + self.start_time.text + " till " + self.end_time.text + " har tagits bort")
         db.update_element(db_id, "start_time", "--:--")
         db.update_element(db_id, "end_time", "--:--")
         self.start_time.text = "--:--"
         self.end_time.text = "--:--"
-        toast("Borttaget")
+
 
 class WindowManager(ScreenManager):
     Home = HomeScreen()
@@ -189,7 +234,6 @@ class AlarmApp(MDApp):
 
 
 
-
 def alarm_active():
     alarm_status = db.get_element(db_id, "alarm_on")
     return alarm_status
@@ -200,7 +244,7 @@ def last_armed():
     return armed_time
 
 
-def send_notify(chatID, bot_message):
+def send_notify(bot_message):
    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + chatID + '&parse_mode=Markdown&text=' + bot_message
    requests.get(send_text)
 
