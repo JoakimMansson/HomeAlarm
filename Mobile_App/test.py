@@ -1,10 +1,14 @@
 import linecache
+import os
 import re
 import telepot
+from datetime import datetime
+import re
+import threading
 
-bot_token = re.sub("\n", "",linecache.getline("credentials", 11))
+current_time = int(re.sub(":", "", datetime.now().strftime("%H:%M")))
+os.remove('testing.py')
+threading.Timer(5.0)
 
-bot = telepot.Bot(bot_token)
-bot.sendMessage(chat_id, "hej")
-#bot.sendPhoto(chat_id, photo=open("Images/Active.png", "rb"))
-bot.sendVideo(chat_id, video=open("videoplayback.mp4", "rb"))
+def sayHello():
+    print("Hello")

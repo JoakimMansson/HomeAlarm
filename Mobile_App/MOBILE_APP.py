@@ -1,4 +1,3 @@
-import subprocess
 import os
 import requests
 import linecache
@@ -92,7 +91,6 @@ class HomeScreen(Screen):
             self.camera_btn.disabled = False
             self.last_armed.text = "Aktiverat " + current_time
 
-            send_notify("Alarmet har aktiverats")
             toast("Aktiverat")
         except Exception as e:
             print(e)
@@ -112,7 +110,6 @@ class HomeScreen(Screen):
             self.camera_btn.disabled = True
             self.last_armed.text = "Avaktiverat " + current_time
 
-            send_notify("Alarmet har avaktiverats")
             toast("Avaktiverat")
         except Exception as e:
             print(e)
@@ -151,7 +148,7 @@ class HomeScreen(Screen):
 class SettingsScreen(Screen):
 
     def RestartAlarmModule(self):
-        pass
+        db.update_element(db_id, "restart_entity", True)
 
 
 class CameraScreen(Screen):
@@ -210,11 +207,13 @@ class SchemeScreen(Screen):
         send_notify("Schemaläggning från: " + self.start_time.text + " till " + self.end_time.text + " sparad")
         db.update_element(db_id, "start_time", self.start_time.text)
         db.update_element(db_id, "end_time", self.end_time.text)
+        db.update_element(db_id, "scheme_set", True)
 
     def delete_time_scheme(self):
         send_notify("Schemaläggningen från: " + self.start_time.text + " till " + self.end_time.text + " har tagits bort")
         db.update_element(db_id, "start_time", "--:--")
         db.update_element(db_id, "end_time", "--:--")
+        db.update_element(db_id, "scheme_set", False)
         self.start_time.text = "--:--"
         self.end_time.text = "--:--"
 
