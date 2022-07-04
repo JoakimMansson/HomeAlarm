@@ -11,7 +11,7 @@ for functionalities such as scheduling, requesting pictures or video and also tu
 <img src="Mobile_App/Screens/Home_screen.PNG" width="400" height="400" name="Home"> 
 </p>
 <p float="left">
-<img src="Mobile_App/Screens/Camera_screen.PNG" width="400" height="400" name="Ca,era">
+<img src="Mobile_App/Screens/Camera_screen.PNG" width="400" height="400" name="Camera">
 </p>
 <p float="left">
 <img src="Mobile_App/Screens/Scheme_screen.PNG" width="400" height="400" name="Settings"> 
@@ -20,11 +20,11 @@ for functionalities such as scheduling, requesting pictures or video and also tu
 ##### Module 
 
 <p float="left">
-<img src="Mobile_App/Screens/Detected.PNG" width="400" height="400" name="Detected"> 
+<img src="Mobile_App/Screens/Detected.png" width="400" height="400" name="Detected"> 
 </p>
 <p float="left">
-<img src="Mobile_App/Screens/Module1.PNG" width="200" height="400" name="Mod1">
-<img src="Mobile_App/Screens/Module3.PNG" width="200" height="400" name="Mod2">
+<img src="Mobile_App/Screens/Module1.png" width="200" height="400" name="Mod1">
+<img src="Mobile_App/Screens/Module3.png" width="200" height="400" name="Mod2">
 </p>
 
 
