@@ -23,8 +23,8 @@ for functionalities such as scheduling, requesting pictures or video and also tu
 <img src="Mobile_App/Screens/Detected.PNG" width="400" height="400" name="Home"> 
 </p>
 <p float="left">
-<img src="Mobile_App/Screens/Module_1.PNG" width="200" height="400" name="Ca,era">
-<img src="Mobile_App/Screens/Module_3.PNG" width="200" height="400" name="Settings">
+<img src="Mobile_App/Screens/Module1.PNG" width="200" height="400" name="Ca,era">
+<img src="Mobile_App/Screens/Module3.PNG" width="200" height="400" name="Settings">
 </p>
 
 
