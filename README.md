@@ -8,16 +8,28 @@ for functionalities such as scheduling, requesting pictures or video and also tu
 ##### Different screens
 
 <p float="left">
-<img src="Screens/Home_screen.PNG" width="400" height="400" name="Home"> 
+<img src="Mobile_App/Screens/Home_screen.PNG" width="400" height="400" name="Home"> 
 </p>
 <p float="left">
-<img src="Screens/Camera_screen.PNG" width="400" height="400" name="Ca,era">
+<img src="Mobile_App/Screens/Camera_screen.PNG" width="400" height="400" name="Ca,era">
 </p>
 <p float="left">
-<img src="Screens/Scheme_screen.PNG" width="400" height="400" name="Settings"> 
+<img src="Mobile_App/Screens/Scheme_screen.PNG" width="400" height="400" name="Settings"> 
 </p>
+
+##### Module 
+
+<p float="left">
+<img src="Mobile_App/Screens/Detected.PNG" width="400" height="400" name="Home"> 
+</p>
+<p float="left">
+<img src="Mobile_App/Screens/Module_1.PNG" width="200" height="400" name="Ca,era">
+<img src="Mobile_App/Screens/Module_3.PNG" width="200" height="400" name="Settings">
+</p>
+
 
 
 ## How it works
 The mobile app was created using Kivy and to allow communication between the phone and RPi I used mongoDB to update certain important information.
-The RPi uses openCV computer vision for detecting any humans using a cascade classifier.
+The RPi uses openCV computer vision for detecting any humans using a cascade classifier. The RPi system also has certain fail-safes in case the power would go out
+in which the script will start itself upon re-gaining power, also if it fails to access the camera in a certain instance it will skip that iteration and notify the user.
