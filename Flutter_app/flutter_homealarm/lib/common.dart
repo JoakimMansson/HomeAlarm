@@ -11,7 +11,7 @@ class TriggerButton extends StatefulWidget {
 
 class _TriggerButtonState extends State<TriggerButton> {
   bool alarm_on = true;
-  String path = "images/Active.png";
+  String path = "images/Secured.png";
   String last_armed = "";
 
   @override
@@ -20,11 +20,18 @@ class _TriggerButtonState extends State<TriggerButton> {
         child: Column(
       children: [
         Container(
-            margin: const EdgeInsets.only(top: 60),
-            child: Image(
-                image: ResizeImage(AssetImage(path), width: 100, height: 100))),
+            margin: const EdgeInsets.only(top: 30),
+            child: Image(image: ResizeImage(AssetImage(path), width: 250, height: 250))
+        ),
         Container(
-          margin: const EdgeInsets.only(top: 50),
+          margin: const EdgeInsets.only(top: 20),
+          child: const Text(
+            "Disarmed 16:07",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 40),
           height: 60,
           width: 120,
           child: MaterialButton(
@@ -46,9 +53,9 @@ class _TriggerButtonState extends State<TriggerButton> {
 void UpdateAlarmState(bool state, String path) {
   if (state == true) {
     state = false;
-    path = "images/De-activated.png";
+    path = "images/De-Secured.png";
   } else {
-    path = "images/Active.png";
+    path = "images/Secured.png";
   }
 }
 
