@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "755203430748",
+    "project_id": "alarm-75e2c",
+    "storage_bucket": "alarm-75e2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755203430748:android:b9b309d971595c9c104999",
+        "android_client_info": {
+          "package_name": "com.example.flutter_homealarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "755203430748-dn3b8sgteij9fbeel3s8dilfec6tih6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ8IwjdxER3pGTdjdIkgeis2xDLYom2LQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "755203430748-dn3b8sgteij9fbeel3s8dilfec6tih6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
