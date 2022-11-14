@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_homealarm/CCTV_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_homealarm/Scheme_page.dart';
 import 'common.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         Container(
           margin: const EdgeInsets.only(top: 40),
           height: 60,
-          width: 120,
+          width: 160,
           child: MaterialButton(
             onPressed: () {
               print("Update DB");
@@ -52,6 +53,22 @@ class _HomePageState extends State<HomePage> {
             shape: const StadiumBorder(),
             color: Colors.red,
           ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 50),
+          height: 60,
+          width: 100,
+          child: MaterialButton(
+            onPressed: (){
+              Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                  return const SchemePage();
+                }));
+            },
+            child: const Text("Scheme"),
+            shape: const StadiumBorder(),
+            color: Colors.grey,
+          )
         )
       ],
     ));
