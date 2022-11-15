@@ -30,33 +30,60 @@ class _SchemePageState extends State<SchemePage> {
       body: Column(
         children: [
           Container(
-              margin: const EdgeInsets.only(top: 50,),
+              margin: const EdgeInsets.only(top: 30,),
               child: Text("Your scheduled time: ${setHour}:${setMinute}")),
-          Container(
-              margin: const EdgeInsets.only(top: 30, right: 20),
-              child: TimePickerSpinner(
-                is24HourMode: true,
-                normalTextStyle:
-                    const TextStyle(fontSize: 24, color: Colors.blue),
-                highlightedTextStyle:
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  child: TimePickerSpinner(
+                    is24HourMode: true,
+                    normalTextStyle:
+                    const TextStyle(fontSize: 24, color: Colors.lime),
+                    highlightedTextStyle:
                     const TextStyle(fontSize: 24, color: Colors.black),
-                spacing: 50,
-                itemHeight: 80,
-                isForce2Digits: true,
-                onTimeChange: (time) {
-                  setState(() {
-                    setCurrentTime(time);
-                  });
-                },
-              )),
+                    spacing: 20,
+                    itemHeight: 80,
+                    isForce2Digits: true,
+                    onTimeChange: (time) {
+                    setState(() {
+                      setCurrentTime(time);
+                    });
+                    },
+                  )
+                ),
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  child: TimePickerSpinner(
+                    is24HourMode: true,
+                    normalTextStyle:
+                    const TextStyle(fontSize: 24, color: Colors.blue),
+                    highlightedTextStyle:
+                    const TextStyle(fontSize: 24, color: Colors.black),
+                    spacing: 20,
+                    itemHeight: 80,
+                    isForce2Digits: true,
+                    onTimeChange: (time) {
+                    setState(() {
+                      setCurrentTime(time);
+                    });
+                    },
+                  )
+                ),
+              ],
+            ),
+          
           Container(
             margin: const EdgeInsets.only(top: 10),
             child: Text(
               "${setHour}:${setMinute}",
-              textScaleFactor: 4,
+              textScaleFactor: 3,
               style: TextStyle(color: Colors.blue),
             ),
           ),
+          
           Container(
               margin: const EdgeInsets.only(top: 50),
               height: 80,
