@@ -15,6 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final firebaseDB = FirebaseFirestore.instance.collection("RPi-alarm");
+
   bool alarm_on = true;
   String path = "images/Secure.png";
   String last_armed = "";
@@ -43,7 +45,6 @@ class _HomePageState extends State<HomePage> {
           width: 160,
           child: MaterialButton(
             onPressed: () {
-              print("Update DB");
               updateDB(startSignal: true);
               setState(() {
                 UpdateAlarmState();
@@ -55,23 +56,36 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 50),
-          height: 60,
-          width: 100,
-          child: MaterialButton(
-            onPressed: (){
-              Navigator.of(context)
+            margin: const EdgeInsets.only(top: 50),
+            height: 60,
+            width: 100,
+            child: MaterialButton(
+              onPressed: () {
+                Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
                   return const SchemePage();
                 }));
-            },
-            child: const Text("Scheme"),
-            shape: const StadiumBorder(),
-            color: Colors.grey,
-          )
-        )
+              },
+              child: const Text("Scheme"),
+              shape: const StadiumBorder(),
+              color: Colors.grey,
+            ))
       ],
     ));
+  }
+
+  Future getCurrentState(String document) async {
+    /*
+    Försöker hämta alarm_on fieldet från firebase
+    */
+  }
+
+  Future requestStop(bool stop, String document) async {
+    return await firebaseDB.doc(document).update({'request_stop': true});
+  }
+
+  Future requestStart(bool start, String document) async {
+    return await firebaseDB.doc(document).update({'request_start': true});
   }
 
   Future updateDB({required bool startSignal}) async {

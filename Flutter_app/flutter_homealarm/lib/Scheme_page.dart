@@ -1,3 +1,6 @@
+import 'dart:html';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
@@ -109,6 +112,13 @@ class _SchemePageState extends State<SchemePage> {
         ],
       ),
     );
+  }
+
+
+  void updateFirebase(){
+    final docUser = FirebaseFirestore.instance.collection("collectionPath").doc("")
+
+    docUser.update(data)
   }
 
   /* 
