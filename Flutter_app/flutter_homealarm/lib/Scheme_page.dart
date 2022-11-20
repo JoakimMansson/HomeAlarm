@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
@@ -16,6 +14,7 @@ class _SchemePageState extends State<SchemePage> {
 
   String startTime = "00:00";
   String endTime = "00:00";
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +35,12 @@ class _SchemePageState extends State<SchemePage> {
               margin: const EdgeInsets.only(
                 top: 30,
               ),
-              child: Text("Your scheduled time: ${setHour}:${setMinute}")),
+              child: Text("Your scheduled time: $startTime")),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  margin: const EdgeInsets.only(top: 20, right: 40),
+                  margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   child: TimePickerSpinner(
                     is24HourMode: true,
                     normalTextStyle:
@@ -58,7 +57,7 @@ class _SchemePageState extends State<SchemePage> {
                     },
                   )),
               Container(
-                  margin: const EdgeInsets.only(top: 20, left: 40),
+                  margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   child: TimePickerSpinner(
                     is24HourMode: true,
                     normalTextStyle:
@@ -77,28 +76,28 @@ class _SchemePageState extends State<SchemePage> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 10, right: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 50),
                 child: Text(
                   startTime,
-                  textScaleFactor: 4,
+                  textScaleFactor: 3,
                   style: const TextStyle(color: Colors.lime),
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 10, left: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: Text(
                   endTime,
-                  textScaleFactor: 4,
+                  textScaleFactor: 3,
                   style: TextStyle(color: Colors.blue),
                 ),
               ),
             ],
           ),
           Container(
-              margin: const EdgeInsets.only(top: 50),
+              margin: const EdgeInsets.only(top: 70),
               height: 80,
               width: 150,
               child: MaterialButton(
@@ -106,19 +105,36 @@ class _SchemePageState extends State<SchemePage> {
                   print("Set schedule");
                 },
                 shape: const StadiumBorder(),
-                color: Colors.grey,
+                color: Colors.blueGrey,
                 child: const Text("Set scheme"),
-              ))
+              )
+          ),
+          Container(
+              margin: const EdgeInsets.only(top: 50),
+              height: 50,
+              width: 150,
+              child: MaterialButton(
+                onPressed: () {
+                  print("Removing scheme");
+                },
+                shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                color: Colors.red,
+                child: const Text("Remove scheme"),
+              )
+          ),
+
         ],
       ),
     );
   }
 
+  void updateFirebase() {
+    final docUser =
+        FirebaseFirestore.instance.collection("collectionPath").doc("");
 
-  void updateFirebase(){
-    final docUser = FirebaseFirestore.instance.collection("collectionPath").doc("")
-
-    docUser.update(data)
+    //docUser.update(data)
   }
 
   /* 
@@ -160,5 +176,4 @@ class _SchemePageState extends State<SchemePage> {
       setMinute = time.minute.toString();
     }
   }
-  
 }

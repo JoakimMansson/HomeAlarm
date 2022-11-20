@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_homealarm/CCTV_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_homealarm/Scheme_page.dart';
 import 'common.dart';
 
@@ -20,8 +19,7 @@ class _HomePageState extends State<HomePage> {
   bool alarm_on = true;
   String path = "images/Secure.png";
   String last_armed = "";
-  final DatabaseReference _testRef =
-      FirebaseDatabase.instance.ref().child("test");
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +72,7 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
+  /*
   Future getCurrentState(String document) async {
     /*
     Försöker hämta alarm_on fieldet från firebase
@@ -87,6 +86,7 @@ class _HomePageState extends State<HomePage> {
   Future requestStart(bool start, String document) async {
     return await firebaseDB.doc(document).update({'request_start': true});
   }
+  */
 
   Future updateDB({required bool startSignal}) async {
     final docuser = FirebaseFirestore.instance.collection("users").doc("test1");
