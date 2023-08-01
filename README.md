@@ -27,6 +27,4 @@ An alarm for my home was created using a Raspberry Pi Zero 2W and a 3D-printed c
 
 
 ## How it works
-The mobile app was created using Kivy and to allow communication between the phone and RPi I used mongoDB to update certain important information.
-The RPi uses openCV computer vision for detecting any humans using a cascade classifier. The RPi system also has certain fail-safes in case the power would go out
-in which the script will start itself upon re-gaining power, also if it fails to access the camera in a certain instance it will skip that iteration and notify the user.
+The mobile app was created using Kivy, and MongoDB was utilized to facilitate communication between the phone and the Raspberry Pi (RPi), enabling updates to certain important information. The RPi employs OpenCV computer vision to detect humans using a cascade classifier. Additionally, the RPi system includes specific fail-safes; for example, if the power goes out, the script will restart itself upon regaining power. If the system fails to access the camera at a particular instance, it will skip that iteration and notify the user.
