@@ -1,9 +1,6 @@
 # HomeAlarm
  
-An alarm for my home was created using a Raspberry Pi Zero 2W and a 3D-printed case. 
-For a functioning alarm an app was also created to Android which has a neat interface
-for functionalities such as scheduling, requesting pictures or video and also turning on and off the alarm.
-
+An alarm for my home was created using a Raspberry Pi Zero 2W and a 3D-printed case. A complementary app was also developed for Android, featuring a neat interface that allows for functionalities such as scheduling, requesting pictures or videos, and turning the alarm on and off.
 
 ##### Different screens
 
